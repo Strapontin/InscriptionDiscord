@@ -18,7 +18,8 @@ namespace inscription
         {
             Regex regex = new(@"<@!*&*[0-9]+>");
             var mentions = regex.Matches(componentInteractionCreateEventArgs.Message.Content).OrderBy(m => m.Index).Select(m => m.Value).ToList();
-            DiscordInteractionResponseBuilder content;
+
+            string message = componentInteractionCreateEventArgs.Message.Content.Split("\n").First();
 
             switch (componentInteractionCreateEventArgs.Id)
             {
@@ -27,24 +28,18 @@ namespace inscription
                     {
                         mentions.Add(componentInteractionCreateEventArgs.User.Mention);
                     }
-
-                    content = new DiscordInteractionResponseBuilder()
-                        .WithContent(string.Join("\n", NumerateUsers(mentions)))
-                        .AddComponents(DiscordMessageBuilderHelper.GetInscriptionButtons());
-
-                    await componentInteractionCreateEventArgs.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, content);
                     break;
 
                 case "unsubscribe":
                     mentions.RemoveAll(m => m == componentInteractionCreateEventArgs.User.Mention);
-
-                    content = new DiscordInteractionResponseBuilder()
-                        .WithContent(string.Join("\n", NumerateUsers(mentions)))
-                        .AddComponents(DiscordMessageBuilderHelper.GetInscriptionButtons());
-
-                    await componentInteractionCreateEventArgs.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, content);
                     break;
             }
+
+            var content = new DiscordInteractionResponseBuilder()
+                .WithContent(message + "\n" + string.Join("\n", NumerateUsers(mentions)))
+                .AddComponents(DiscordMessageBuilderHelper.GetInscriptionButtons());
+
+            await componentInteractionCreateEventArgs.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, content);
         }
 
         private static List<string> NumerateUsers(List<string> mentions)

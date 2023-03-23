@@ -11,13 +11,13 @@ namespace inscription.Classes
 {
     public class DiscordMessageBuilderHelper
     {
-        public static DiscordInteractionResponseBuilder BuildDefaultInscriptionResponse()
+        public static DiscordInteractionResponseBuilder BuildDefaultInscriptionResponse(string message)
         {
             // Buttons
             List<DiscordComponent> discordComponents = GetInscriptionButtons();
 
             DiscordInteractionResponseBuilder content = new DiscordInteractionResponseBuilder()
-                .WithContent("Aucun joueur n'est inscrit pour l'instant.")
+                .WithContent(message)
                 .AddComponents(discordComponents);
 
             return content;

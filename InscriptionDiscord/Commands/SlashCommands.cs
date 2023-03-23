@@ -26,9 +26,10 @@ namespace inscription.Commands
 
 
         [SlashCommand("inscription", "Crée un message d'inscriptions")]
-        public static async Task FactCommand(InteractionContext ctx)
+        public static async Task FactCommand(InteractionContext ctx,
+            [Option("Message", "Texte initial que comportera le message")] string message)
         {
-            var content = DiscordMessageBuilderHelper.BuildDefaultInscriptionResponse();
+            var content = DiscordMessageBuilderHelper.BuildDefaultInscriptionResponse(message);
 
             await ctx.CreateResponseAsync(content);
         }
