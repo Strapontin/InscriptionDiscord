@@ -4,15 +4,11 @@ using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
 using inscription;
 using inscription.Commands;
+using System.Configuration;
 
 var discord = new DiscordClient(new DiscordConfiguration()
 {
-#if DEBUG
-    //Token = Environment.GetEnvironmentVariable("DISCORD_KEY_LOL_FACTS_DEBUG"),
-    Token = Environment.GetEnvironmentVariable("DISCORD_KEY_INSCRIPTION"),
-#else
-                Token = Environment.GetEnvironmentVariable("DISCORD_KEY_INSCRIPTION"),
-#endif
+    Token = ConfigurationManager.AppSettings["DISCORD_KEY_INSCRIPTION"],
     TokenType = TokenType.Bot,
     Intents = DiscordIntents.AllUnprivileged,
     MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Debug,

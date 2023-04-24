@@ -5,6 +5,7 @@
 
 # Contains hidden informations
 launchSettings.json
+App.config
 
 # User-specific files
 *.rsuser

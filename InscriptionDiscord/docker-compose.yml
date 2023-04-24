@@ -1,0 +1,6 @@
+name: inscription-discord
+services:
+  inscription-discord:
+    restart: always
+    build:
+      context: .
